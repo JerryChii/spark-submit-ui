@@ -34,7 +34,7 @@ class SparkJar @Inject() (taskDao: TaskDao,taskProvider: TaskProvider[AppDataObj
     def upload = Action(parse.multipartFormData) { implicit request =>
       request.body.file("file").map { jobFile =>
          session.get("email").map { user =>
-           Logger.info("用户名=>"+user)
+           Logger.info("username=>"+user)
            Execute.storeJar(user,jobFile) match {
             case JarStored(uri) => Redirect(routes.SparkJar.executejarpage())
             case InvalidJar(error) => Logger.info(error); BadRequest(error)
